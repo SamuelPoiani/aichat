@@ -5,7 +5,7 @@ const chatRoutes = require('./routes/chatRoutes')
 
 app.use(express.json())
 
-app.use('/chat', chatRoutes)
+app.use('/api/chat', chatRoutes)
 
 
 app.get('/', (res, req) => {
