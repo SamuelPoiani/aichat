@@ -1,9 +1,12 @@
-const express = require('express');
+import express from 'express'
 const PORT = 4321;
 const app = express();
-const chatRoutes = require('./routes/chatRoutes')
+import chatRoutes from './routes/chatRoutes.js'
+import dotenv from 'dotenv'
+dotenv.config()
 
 app.use(express.json())
+
 
 app.use('/api/chat', chatRoutes)
 

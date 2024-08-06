@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "A simple ai chat",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "nodemon server/main.js"
   },
@@ -24,7 +25,9 @@
   "homepage": "https://github.com/SamuelPoiani/aichat#readme",
   "dependencies": {
     "@prisma/client": "^5.17.0",
+    "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "groq-sdk": "^0.5.0",
     "nodemon": "^3.1.4"
   },
   "devDependencies": {

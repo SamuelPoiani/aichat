@@ -1,8 +1,8 @@
-const { PrismaClient } = require('@prisma/client');
+import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
-class chatController {
-
+export default class chatController {
+    
     async createChat(req, res) {
         try {
             const { name } = req.body;
@@ -40,4 +40,7 @@ class chatController {
     }
 }
 
-module.exports = new chatController();
+const ChatController = new chatController();
+
+// Export the instance
+export { ChatController };

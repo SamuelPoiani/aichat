@@ -1,10 +1,12 @@
-const express = require('express');
+import express from 'express'
+
+import { ChatController } from '../controllers/chatController.js';
+import { MessageController } from '../controllers/messageController.js';
+
 const router = express.Router();
-const chatController = require('../controllers/chatController.js')
-const messageController = require('../controllers/messageController.js')
 
-router.post('/create', chatController.createChat)
-router.post('/sendMessage', messageController.sendMessage)
-router.delete('/delete/:id', chatController.deleteChat)
+router.post('/create', ChatController.createChat)
+router.post('/sendMessage', MessageController.sendMessage)
+router.delete('/delete/:id', ChatController.deleteChat)
 
-module.exports = router;
+export default router;
