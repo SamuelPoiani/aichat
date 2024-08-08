@@ -8,12 +8,7 @@ export async function loadChats() {
         const response = await fetch('/api/chat/getChats');
         const chats = await response.json();
         updateChatList(chats, handleChatItemClick, handleDeleteChat, handleRenameChat, handleResetChat);
-        
-        // If there are no chats left, create a new one
-        if (chats.length === 0) {
-            await createNewChat();
-        }
-        
+ 
         return chats;
     } catch (error) {
         console.error('Error loading chats:', error);
@@ -24,10 +19,17 @@ export async function loadChats() {
 export async function loadChatHistory(chatId) {
     try {
         const response = await fetch(`/api/chat/loadChatHistory/${chatId}`);
+        if (response.status === 404) {
+            // Chat not found, redirect to root
+            window.location.href = '/';
+            return;
+        }
         const messages = await response.json();
         updateChatHistory(messages);
     } catch (error) {
         console.error('Error loading chat history:', error);
+        // Redirect to root in case of any error
+        window.location.href = '/';
     }
 }
 
@@ -146,9 +148,8 @@ export async function initializeChat() {
     if (chatId) {
         currentChatId = Number(chatId);
         await loadChatHistory(currentChatId);
-    } else {
-        await createNewChat();
     }
+
     loadChats();
 }
 

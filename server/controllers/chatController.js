@@ -86,15 +86,19 @@ class chatController {
 
     async loadChatHistory(req, res) {
         const { chatId } = req.params;
-        const messages = await prisma.message.findMany({
-            where: {
-                chatId: Number(chatId)
-            }
-        })
-        res.json(messages);
+        const chat = await prisma.chat.findUnique({
+            where: { id: Number(chatId) },
+            include: { mesagens: true }
+        });
+    
+        if (!chat) {
+            return res.status(404).json({ message: "Chat not found" });
+        }
+    
+        res.json(chat.mesagens);
     }
 
-    async getChats(req, res) {
+    async getChats(_, res) {
         const chats = await prisma.chat.findMany()
         res.json(chats)
     }
