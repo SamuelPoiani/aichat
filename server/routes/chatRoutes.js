@@ -11,4 +11,6 @@ router.put('/updateTitle/:chatId', ChatController.updateTitle)
 router.get('/getChats', ChatController.getChats)
 router.get('/loadChatHistory/:chatId', ChatController.loadChatHistory)
 router.post('/sendMessage', messageController.sendMessage)
+router.delete('/deleteChat/:id', ChatController.deleteChat)
+router.post('/resetChat/:id', ChatController.resetChat)
 export default router;

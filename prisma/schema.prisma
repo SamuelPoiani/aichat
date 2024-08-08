@@ -10,18 +10,17 @@ datasource db {
   url      = "file:./dev.db"
 }
 
-
 model Chat {
- id Int @id @default(autoincrement())
- createdAt DateTime @default(now())
- name String
- mesagens Message[]
-
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  name        String
+  instruction String    @default("You are a helpful AI assistant.")
+  mesagens    Message[]
 }
 
 model Message {
-id Int @id @default(autoincrement())
-chatId Int
-chat Chat @relation(fields: [chatId], references: [id])
-content String
+  id      Int    @id @default(autoincrement())
+  chatId  Int
+  chat    Chat   @relation(fields: [chatId], references: [id])
+  content String
 }

@@ -6,18 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>aichat</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <style>
-        /* Custom styles */
-        .scrollbar-hide::-webkit-scrollbar {
-            display: none;
-        }
-
-        .scrollbar-hide {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+<style>
+.options-menu {
+    position: fixed; /* Use fixed positioning to allow the menu to extend beyond the sidebar */
+    z-index: 50;
+    background-color: #2d3748; /* bg-gray-800 */
+    border-radius: 0.375rem; /* rounded-md */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+    display: none; /* Hidden by default */
+}
+.sidebar {
+    position: relative;
+    overflow-y: auto;
+}
+</style>
 
 <body class="bg-gray-900 text-gray-100 h-screen flex overflow-hidden">
     <div class="flex w-full">
@@ -26,10 +30,10 @@
             <div class="p-4 border-b border-gray-700">
                 <h2 class="text-xl font-bold">aichat</h2>
             </div>
-            <div class="flex-1 overflow-y-auto scrollbar-hide">
+            <div class="flex-1 overflow-y-auto">
                 <ul class="space-y-2 p-4" id="chat-list"></ul>
             </div>
-            <div class="p-4">
+            <div class="p-4 border-t border-gray-700">
                 <button id="new-chat"
                     class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                     New Chat
@@ -39,7 +43,7 @@
 
         <!-- Main content -->
         <div class="flex-1 flex flex-col">
-            <div class="flex-1 overflow-y-auto p-6 scrollbar-hide" id="chat-history"></div>
+            <div class="flex-1 overflow-y-auto p-6 z-20" id="chat-history"></div>
             <div class="border-t border-gray-700 p-4">
                 <div class="flex rounded-md shadow-sm">
                     <input type="text" id="message-input"

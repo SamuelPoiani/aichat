@@ -5,13 +5,18 @@ const prisma = new PrismaClient();
 class chatController {
     async createChat(req, res) {
         try {
+            const { name, instruction } = req.body;
+            console.log('Creating chat with:', { name, instruction }); // Add this line for debugging
             const newChat = await prisma.chat.create({
                 data: {
-                    name: 'New Chat'
+                    name: name || 'New Chat',
+                    instruction: instruction || 'You are a helpful AI assistant.'
                 }
             });
+            console.log('New chat created:', newChat); // Add this line for debugging
             res.json(newChat);
         } catch (error) {
+            console.error('Error creating chat:', error); // Add this line for debugging
             res.status(400).json({ message: "Error creating chat", error: error.message });
         }
     }
@@ -60,27 +65,24 @@ class chatController {
 
     async deleteChat(req, res) {
         try {
-
-            const results = {}
-
             const { id } = req.params;
-
-            const deleteMessages = await prisma.message.deleteMany({
-                where: { chatId: Number(id) }
-            })
-            results.deletedMessages = deleteMessages
-
-            const deleteChat = await prisma.chat.delete({
-                where: { id: Number(id) }
-            })
-            results.deletedChat = deleteChat
-
-            res.status(200).json(results)
+            await prisma.message.deleteMany({ where: { chatId: Number(id) } });
+            await prisma.chat.delete({ where: { id: Number(id) } });
+            res.json({ message: "Chat deleted successfully" });
         } catch (error) {
-            res.status(400).json({ message: "Error to delete conversation", error: error.message })
+            res.status(400).json({ message: "Error deleting chat", error: error.message });
         }
     }
 
+    async resetChat(req, res) {
+        try {
+            const { id } = req.params;
+            await prisma.message.deleteMany({ where: { chatId: Number(id) } });
+            res.json({ message: "Chat reset successfully" });
+        } catch (error) {
+            res.status(400).json({ message: "Error resetting chat", error: error.message });
+        }
+    }
 
     async loadChatHistory(req, res) {
         const { chatId } = req.params;

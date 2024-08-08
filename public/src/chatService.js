@@ -1,5 +1,5 @@
 import { updateChatList, updateChatHistory } from './uiManager.js';
-import { handleChatItemClick } from './eventHandlers.js';
+import { handleChatItemClick, handleDeleteChat, handleRenameChat, handleResetChat } from './eventHandlers.js';
 
 let currentChatId = null;
 
@@ -7,9 +7,17 @@ export async function loadChats() {
     try {
         const response = await fetch('/api/chat/getChats');
         const chats = await response.json();
-        updateChatList(chats, handleChatItemClick);
+        updateChatList(chats, handleChatItemClick, handleDeleteChat, handleRenameChat, handleResetChat);
+        
+        // If there are no chats left, create a new one
+        if (chats.length === 0) {
+            await createNewChat();
+        }
+        
+        return chats;
     } catch (error) {
         console.error('Error loading chats:', error);
+        return [];
     }
 }
 
@@ -30,11 +38,15 @@ export async function createNewChat() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ name: 'New Chat' })
+            body: JSON.stringify({ 
+                name: 'New Chat',
+                instruction: 'You are a helpful AI assistant.'
+            })
         });
 
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            const errorData = await response.json();
+            throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.message}`);
         }
 
         const newChat = await response.json();
@@ -43,8 +55,10 @@ export async function createNewChat() {
         window.history.pushState({}, '', `/?chat=${currentChatId}`);
         await loadChats();
         console.log('New chat created:', newChat);
+        return newChat;
     } catch (error) {
         console.error('Error creating new chat:', error);
+        throw error;
     }
 }
 
@@ -76,6 +90,52 @@ export async function updateChatTitle(chatId, newTitle) {
         });
     } catch (error) {
         console.error('Error updating chat title:', error);
+    }
+}
+
+export async function deleteChat(chatId) {
+    try {
+        const response = await fetch(`/api/chat/deleteChat/${chatId}`, {
+            method: 'DELETE'
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        await loadChats();
+    } catch (error) {
+        console.error('Error deleting chat:', error);
+    }
+}
+
+export async function renameChat(chatId, newName) {
+    try {
+        const response = await fetch(`/api/chat/updateTitle/${chatId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ title: newName })
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        await loadChats();
+    } catch (error) {
+        console.error('Error renaming chat:', error);
+    }
+}
+
+export async function resetChat(chatId) {
+    try {
+        const response = await fetch(`/api/chat/resetChat/${chatId}`, {
+            method: 'POST'
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        await loadChatHistory(chatId);
+    } catch (error) {
+        console.error('Error resetting chat:', error);
     }
 }
 

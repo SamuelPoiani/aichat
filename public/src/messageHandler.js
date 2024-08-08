@@ -9,8 +9,18 @@ export async function sendMessage() {
 
     let currentChatId = getCurrentChatId();
     if (!currentChatId) {
-        await createNewChat();
-        currentChatId = getCurrentChatId();
+        try {
+            await createNewChat();
+            currentChatId = getCurrentChatId();
+        } catch (error) {
+            console.error('Error creating new chat:', error);
+            return;
+        }
+    }
+
+    if (!currentChatId) {
+        console.error('Failed to get or create a chat ID');
+        return;
     }
 
     displayUserMessage(messageContent);
@@ -52,7 +62,7 @@ export async function sendMessage() {
                         break;
                     }
 
-                    assistantResponse.innerHTML += data.content;
+                    assistantResponse.textContent += data.content;
                     scrollToBottom(document.getElementById('chat-history'));
                 }
             }
@@ -66,6 +76,6 @@ export async function sendMessage() {
         }
     } catch (error) {
         console.error('Error sending message:', error);
-        assistantResponse.innerHTML = 'Error: Unable to send message. Please try again.';
+        assistantResponse.textContent = 'Error: Unable to send message. Please try again.';
     }
 }
