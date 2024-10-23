@@ -26,9 +26,23 @@ Examples of unacceptable behavior include:
 
 ## Our Responsibilities
 
-Community leaders are responsible for clarifying and enforcing our standards of acceptable behavior and will take appropriate and fair corrective action in response to any behavior that they deem inappropriate, threatening, offensive, or harmful.
+Community leaders are responsible for clarifying and enforcing our standards of acceptable behavior and will take appropriate and fair corrective action in response to any behavior that they deem inappropriate, threatening, offensive, or harmful. This includes but is not limited to:
 
-Community leaders have the right and responsibility to remove, edit, or reject comments, commits, code, wiki edits, issues, and other contributions that are not aligned to this Code of Conduct, and will communicate reasons for moderation decisions when appropriate.
+- Investigating reported violations thoroughly and impartially
+- Implementing consistent and proportional consequences for violations
+- Providing clear explanations for moderation decisions
+- Maintaining confidentiality when handling sensitive issues
+- Taking preventive measures to foster a healthy community environment
+
+Community leaders have the right and responsibility to remove, edit, or reject comments, commits, code, wiki edits, issues, and other contributions that are not aligned to this Code of Conduct. They will communicate reasons for moderation decisions when appropriate and provide guidance for future participation.
+
+Community leaders will also:
+
+- Lead by example in demonstrating expected behavior
+- Stay informed about best practices in community management
+- Be accessible to community members who need to report issues
+- Document decisions and actions taken to ensure transparency
+- Regularly review and update community guidelines as needed
 
 ## Enforcement
 
